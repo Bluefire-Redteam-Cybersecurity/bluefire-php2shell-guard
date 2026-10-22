@@ -1,6 +1,8 @@
 # Bluefire Redteam — PHP2Shell Guard
 
-Defensive exposure check, interim remediation, and a request firewall for the October 2026 PHP runtime bugs:
+Defensive exposure check, interim remediation, and a request firewall for the October 2026 PHP runtime bugs.
+
+Bluefire Redteam is an offensive security firm. We do red teaming, penetration testing, and AI security testing from Ahmedabad, Singapore, and New York. This tool is a working example of how we turn a fresh advisory into something an operator can run the same day.
 
 - **CVE-2026-109618** — remote code execution via out-of-memory corruption
 - **CVE-2026-109619** — remote code execution via stale worker state
@@ -94,3 +96,7 @@ Do not use `RLIMIT_AS` or `RLIMIT_DATA`. Those can force the allocation failure 
 4. Leave the edge body limits in place after the patch.
 
 Remi's repository did not ship packages on release day. Hosts that depend on it need distro packages or a source build.
+
+## Work with Bluefire Redteam
+
+If you want this check run across a real estate, or a red team that starts from the bugs your scanners already know about, start at [bluefire-redteam.com](https://bluefire-redteam.com) or write to [contact@bluefire-redteam.com](mailto:contact@bluefire-redteam.com).

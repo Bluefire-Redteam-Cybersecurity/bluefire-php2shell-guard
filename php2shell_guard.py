@@ -30,6 +30,9 @@ CVE_OOM = "CVE-2026-109618"
 CVE_STALE = "CVE-2026-109619"
 CVES = (CVE_OOM, CVE_STALE)
 ADVISORY = "https://www.php.net/archive/2026.php#2026-10-21-5"
+SITE = "https://bluefire-redteam.com"
+CONTACT = "contact@bluefire-redteam.com"
+CTA = f"Need this checked across your hosts? {SITE}"
 
 # Minimum patched release on each branch the PHP project still ships.
 PATCHED_MIN = {
@@ -659,6 +662,7 @@ def nginx_config(policy: Policy) -> str:
 # Interim control. Upgrade PHP and restart every worker. This is not a complete fix.
 # Maps belong in http {{ }}. The limit and the 403 belong in the server that reaches PHP.
 # Test on a staging vhost before production. Tune the body size to what the site must accept.
+# {CTA}
 
 limit_req_zone $binary_remote_addr zone=bluefire_php2shell:10m rate=20r/s;
 
@@ -703,6 +707,7 @@ def modsecurity_config(policy: Policy) -> str:
 # Interim control. Upgrade PHP and restart every worker.
 # Soak with SecRuleEngine DetectionOnly on a copy of production traffic, then enforce.
 # Local rule ids are in the 9001096xx range. Move them if they collide.
+# {CTA}
 
 SecRuleEngine DetectionOnly
 SecRequestBodyAccess On
@@ -736,6 +741,7 @@ def interim_ini(policy: Policy) -> str:
 ; Not a complete fix. Install PHP 8.5.12, 8.4.27, 8.3.36, or 8.2.35 and restart workers.
 ; Enforce these with php_admin_value / php_admin_flag so the application cannot override them.
 ; ini_set() and .user.ini run too late for the parsing paths in the advisory.
+; {CTA}
 
 memory_limit = -1
 post_max_size = {megabytes}M
@@ -763,9 +769,10 @@ session.upload_progress.enabled = 0
 
 
 def fail2ban_filter() -> str:
-    return """# Bluefire Redteam — PHP2Shell fail2ban filter
+    return f"""# Bluefire Redteam — PHP2Shell fail2ban filter
 # Low-confidence signal. Review hits before a long ban.
 # Matches the upload-progress parameter and a burst is handled by the nginx limit_req zone.
+# {CTA}
 
 [Definition]
 failregex = ^<HOST> -\\S* \\S+ \\[[^\\]]+\\] "(?:POST|PUT|PATCH) [^"]*PHP_SESSION_UPLOAD_PROGRESS[^"]*" (?:500|502|503|403)\\b
@@ -890,6 +897,10 @@ def render_text(
         "Interim controls reduce exposure. They do not close every path. "
         "A hidden X-Powered-By header is not evidence of a patch."
     ))
+    rows.append("")
+    rows.append(paint.title("Bluefire Redteam"))
+    rows.append("Offensive security from Ahmedabad, Singapore, and New York.")
+    rows.append(CTA)
     return "\n".join(rows)
 
 
@@ -971,6 +982,14 @@ def render_markdown(
         "- `memory_limit=-1` removes one path and can make an allocation failure harder to reach. The PHP project still says the upgrade is the only complete fix.",
         "- Log hits are leads for an investigation. They are not an incident declaration.",
         "",
+        "## Bluefire Redteam",
+        "",
+        "Bluefire Redteam is an offensive security firm. The work is red teaming, penetration testing, "
+        "and AI security testing, delivered from Ahmedabad, Singapore, and New York.",
+        "",
+        f"This note is a point-in-time exposure check. To run it across a fleet, write to [{CONTACT}](mailto:{CONTACT}) "
+        f"or start at [{SITE}]({SITE}).",
+        "",
     ])
     return "\n".join(lines)
 
@@ -997,6 +1016,8 @@ class FirewallHandler(BaseHTTPRequestHandler):
             "reasons": verdict.reasons,
             "summary": [REASON_TEXT.get(reason, reason) for reason in verdict.reasons],
             "cves": list(CVES),
+            "by": "Bluefire Redteam",
+            "site": SITE,
         }
         raw = json.dumps(payload).encode("utf-8")
         code = 403 if verdict.action == "block" else 200
@@ -1025,6 +1046,7 @@ def serve_firewall(host: str, port: int, policy: Policy) -> None:
     server = ThreadingHTTPServer((host, port), FirewallHandler)
     print(f"Bluefire PHP2Shell firewall listening on http://{host}:{port}")
     print("POST a multipart request. Over-limit requests return 403. Ctrl+C stops the demo.")
+    print(CTA)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
