@@ -9,7 +9,7 @@ Bluefire Redteam is an offensive security firm. We do red teaming, penetration t
 
 Both are CVSS v4.0 9.2. They are in PHP itself, so WordPress, Drupal, Magento, Laravel, and custom apps are exposed when the runtime underneath them is unpatched. The highest-risk setup in the PHP advisory is Apache `mod_php`.
 
-The only complete fix is a patched PHP build and a restart of every worker. This tool does not send exploit traffic.
+The only complete fix is a patched PHP build and a restart of every worker. This repository is a checker and a defensive edge policy. It does not send exploit traffic.
 
 | Branch | Fixed release |
 |---|---|
@@ -96,6 +96,20 @@ Do not use `RLIMIT_AS` or `RLIMIT_DATA`. Those can force the allocation failure 
 4. Leave the edge body limits in place after the patch.
 
 Remi's repository did not ship packages on release day. Hosts that depend on it need distro packages or a source build.
+
+## See also
+
+Other Bluefire Redteam checkers:
+
+- [Ivanti Connect Secure check](https://github.com/Bluefire-Redteam-Cybersecurity/bluefire-ivanti-ics-guard) — CVE-2026-104935
+- [SharePoint CVE-2025-53770 toolkit](https://github.com/Bluefire-Redteam-Cybersecurity/bluefire-sharepoint-cve-2025-53770)
+- [Nx s1ngularity check](https://github.com/Bluefire-Redteam-Cybersecurity/bluefire-nx-s1ngularity-check)
+
+## Disclaimer
+
+This repository is a checker plus a local request filter and configuration snippets. It compares a PHP version and settings with the PHP advisory, and it can reject oversized or malformed multipart requests. It does not send exploit traffic. A result is not proof that a host was compromised, and it is not proof that a host is safe.
+
+Use it only on systems you are authorized to assess. The report is not legal advice and it does not replace the PHP advisory. The software is provided as-is, without warranty, under the [MIT License](LICENSE).
 
 ## Work with Bluefire Redteam
 

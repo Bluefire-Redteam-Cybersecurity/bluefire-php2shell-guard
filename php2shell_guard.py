@@ -4,8 +4,10 @@
 Defensive exposure check, interim remediation, and request firewall for
 CVE-2026-109618 and CVE-2026-109619.
 
-The only complete fix is a patched PHP build plus a worker restart.
-This tool does not send attack traffic and does not test exploitability.
+Checker and defensive edge policy. The only complete fix is a patched PHP
+build plus a worker restart. This tool does not send attack traffic and
+does not test exploitability. See README for the disclaimer and LICENSE
+for the MIT terms.
 """
 
 from __future__ import annotations
@@ -981,6 +983,17 @@ def render_markdown(
         "- Vendor builds sometimes keep an older version number and carry the fix. Pass `--changelog` when the package note names both CVEs.",
         "- `memory_limit=-1` removes one path and can make an allocation failure harder to reach. The PHP project still says the upgrade is the only complete fix.",
         "- Log hits are leads for an investigation. They are not an incident declaration.",
+        "",
+        "## Disclaimer",
+        "",
+        "Checker and defensive edge policy. This report is not proof of compromise or of safety, "
+        "and it is not legal advice. The tool is provided as-is under the MIT License.",
+        "",
+        "## See also",
+        "",
+        "- [Ivanti Connect Secure check](https://github.com/Bluefire-Redteam-Cybersecurity/bluefire-ivanti-ics-guard)",
+        "- [SharePoint CVE-2025-53770 toolkit](https://github.com/Bluefire-Redteam-Cybersecurity/bluefire-sharepoint-cve-2025-53770)",
+        "- [Nx s1ngularity check](https://github.com/Bluefire-Redteam-Cybersecurity/bluefire-nx-s1ngularity-check)",
         "",
         "## Bluefire Redteam",
         "",
