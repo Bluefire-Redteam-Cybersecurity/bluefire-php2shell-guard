@@ -2,7 +2,7 @@
 
 Defensive exposure check, interim remediation, and a request firewall for the October 2026 PHP runtime bugs.
 
-Bluefire Redteam is an offensive security firm. We do red teaming, penetration testing, and AI security testing from Ahmedabad, Singapore, and New York. This tool is a working example of how we turn a fresh advisory into something an operator can run the same day.
+Bluefire Redteam is a global offensive security firm. We do red teaming, penetration testing, and AI security testing. This tool is a working example of how we turn a fresh advisory into something an operator can run the same day.
 
 - **CVE-2026-109618** — remote code execution via out-of-memory corruption
 - **CVE-2026-109619** — remote code execution via stale worker state

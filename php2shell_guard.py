@@ -901,7 +901,7 @@ def render_text(
     ))
     rows.append("")
     rows.append(paint.title("Bluefire Redteam"))
-    rows.append("Offensive security from Ahmedabad, Singapore, and New York.")
+    rows.append("A global offensive security firm.")
     rows.append(CTA)
     return "\n".join(rows)
 
@@ -997,8 +997,8 @@ def render_markdown(
         "",
         "## Bluefire Redteam",
         "",
-        "Bluefire Redteam is an offensive security firm. The work is red teaming, penetration testing, "
-        "and AI security testing, delivered from Ahmedabad, Singapore, and New York.",
+        "Bluefire Redteam is a global offensive security firm. The work is red teaming, penetration testing, "
+        "and AI security testing.",
         "",
         f"This note is a point-in-time exposure check. To run it across a fleet, write to [{CONTACT}](mailto:{CONTACT}) "
         f"or start at [{SITE}]({SITE}).",
