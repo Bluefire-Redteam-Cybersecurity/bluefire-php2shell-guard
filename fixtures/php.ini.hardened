@@ -1,0 +1,9 @@
+; Interim hardening only. The runtime still needs the October 2026 security release.
+memory_limit = -1
+post_max_size = 8M
+upload_max_filesize = 2M
+session.upload_progress.enabled = 0
+max_input_nesting_level = 8
+max_file_uploads = 5
+max_input_vars = 1000
+fatal_error_backtraces = 0
